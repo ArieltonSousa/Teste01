@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Verificação de Construção</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+        form {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-group input[type="file"] {
+            padding: 3px;
+        }
+        img {
+            max-width: 100%;
+            margin-top: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .btn-group {
+            margin-top: 20px;
+        }
+        .btn-group button {
+            margin-bottom: 10px;
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            button {
+                padding: 12px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Formulário de Verificação de Construção</h1>
+
+<form id="constructionForm">
+    <div class="form-group">
+        <label for="companyLogo">Logomarca da Empresa:</label>
+        <input type="file" id="companyLogo" accept="image/*" onchange="previewImage(event, 'logoPreview')">
+        <img id="logoPreview" alt="Pré-visualização da logomarca" style="display:none;">
+    </div>
+
+    <div class="form-group">
+        <label for="projectReference">Projeto de Referência:</label>
+        <input type="text" id="projectReference" name="projectReference" required>
+    </div>
+
+    <div class="form-group">
+        <label for="inspectorName">Nome do Inspetor:</label>
+        <input type="text" id="inspectorName" name="inspectorName" required>
+    </div>
+
+    <div class="form-group">
+        <label for="inspectionDate">Data da Inspeção:</label>
+        <input type="date" id="inspectionDate" name="inspectionDate" required>
+    </div>
+
+    <div class="form-group">
+        <label for="siteLocation">Localização da Obra:</label>
+        <input type="text" id="siteLocation" name="siteLocation" required>
+    </div>
+
+    <div class="form-group">
+        <label for="inspectionItems">Itens Inspecionados:</label>
+        <textarea id="inspectionItems" name="inspectionItems" rows="4" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="conformityCheck">Conformidade:</label>
+        <select id="conformityCheck" name="conformityCheck" required>
+            <option value="Conforme">Conforme</option>
+            <option value="Não Conforme">Não Conforme</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="statusCheck">Status da Atividade:</label>
+        <select id="statusCheck" name="statusCheck" required>
+            <option value="Concluído">Concluído</option>
+            <option value="Em Execução">Em Execução</option>
+            <option value="Atrasado">Atrasado</option>
+            <option value="Planejado">Planejado</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="inspectionResults">Resultados da Inspeção:</label>
+        <textarea id="inspectionResults" name="inspectionResults" rows="4" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="inspectionPhoto">Registro Fotográfico:</label>
+        <input type="file" id="inspectionPhoto" accept="image/*" onchange="previewImage(event, 'photoPreview')">
+        <img id="photoPreview" alt="Pré-visualização da foto" style="display:none;">
+    </div>
+
+    <div class="form-group">
+        <label for="additionalNotes">Notas Adicionais:</label>
+        <textarea id="additionalNotes" name="additionalNotes" rows="4"></textarea>
+    </div>
+
+    <div class="btn-group">
+        <button type="button" onclick="generateReport()">Enviar</button>
+    </div>
+</form>
+
+<script>
+    function previewImage(event, elementId) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById(elementId);
+            output.src = reader.result;
+            output.style.display = 'block';
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function generateReport() {
+        const projectReference = document.getElementById('projectReference').value;
+        const inspectorName = document.getElementById('inspectorName').value;
+        const inspectionDate = document.getElementById('inspectionDate').value;
+        const siteLocation = document.getElementById('siteLocation').value;
+        const inspectionItems = document.getElementById('inspectionItems').value;
+        const conformityCheck = document.getElementById('conformityCheck').value;
+        const statusCheck = document.getElementById('statusCheck').value;
+        const inspectionResults = document.getElementById('inspectionResults').value;
+        const additionalNotes = document.getElementById('additionalNotes').value;
+
+        const reportContent = `
+            <!DOCTYPE html>
+            <html lang="pt-BR">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Relatório de Verificação de Construção</title>
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 20px; }
+                    h1 { text-align: center; color: #007bff; }
+                    p { text-align: center; margin-bottom: 20px; }
+                    .content { text-align: center; }
+                </style>
+            </head>
+            <body>
+                <h1>Relatório de Verificação de Construção</h1>
+                <div class="content">
+                    <p><strong>Projeto de Referência:</strong> ${projectReference}</p>
+                    <p><strong>Nome do Inspetor:</strong> ${inspectorName}</p>
+                    <p><strong>Data da Inspeção:</strong> ${inspectionDate}</p>
+                    <p><strong>Localização da Obra:</strong> ${siteLocation}</p>
+                    <p><strong>Itens Inspecionados:</strong></p>
+                    <p>${inspectionItems}</p>
+                    <p><strong>Conformidade:</strong> ${conformityCheck}</p>
+                    <p><strong>Status da Atividade:</strong> ${statusCheck}</p>
+                    <p><strong>Resultados da Inspeção:</strong></p>
+                    <p>${inspectionResults}</p>
+                    <p><strong>Notas Adicionais:</strong></p>
+                    <p>${additionalNotes}</p>
+                </div>
+            </body>
+            </html>
+        `;
+
+        const newWindow = window.open();
+        newWindow.document.open();
+        newWindow.document.write(reportContent);
+        newWindow.document.close();
+    }
+</script>
+
+</body>
+</html>
